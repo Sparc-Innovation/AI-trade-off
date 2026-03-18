@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Compliance Trade-Off LMS
 
 This project is an interactive Learning Management System (LMS) focused on AI Compliance.
@@ -38,3 +39,6 @@ The app will be available at the URL provided in the terminal (usually `http://l
 ## Collaboration
 - Please create a new branch for any fixes or features.
 - Ensure you run `npm run build` to verify the build process before pushing major changes.
+=======
+# AI-trade-off
+>>>>>>> 5aac402b8f88131ac9835c826d69d93adfa712d7
