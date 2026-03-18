@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Compliance Trade-Off | BIBF Professional Certification</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.jpg" alt="BIBF Logo" class="logo-image">
+                    <div class="logo-text">
+                        <h1>BIBF</h1>
+                        <p>Share Knowledge</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-info">
+                    <span>Course Progress</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-bar-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <nav id="lecture-list" class="sidebar-nav"></nav>
+
+            <div class="sidebar-section">
+                <div class="lecture-section-header">Course Resources</div>
+                <div class="resource-item">
+                    <a href="governance-guide.pdf" target="_blank" class="resource-link">
+                        <span class="icon">📄</span>
+                        <span class="title">Governance Guide (PDF)</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn-settings btn-logout" id="logout-btn">🚪 Log Out</button>
+                <button class="btn-settings" id="open-settings">⚙️ API Settings</button>
+            </div>
+        </aside>
+
+        <!-- API SETTINGS MODAL -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h3>Gemini API Configuration</h3>
+                <p>This course leverages the Gemini API to dynamically generate AI governance content, scripts, and
+                    simulations.</p>
+                <div class="field-group">
+                    <label>Gemini API Key</label>
+                    <input type="password" id="api-key-input" placeholder="Paste your API key here...">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-primary" id="save-settings">Save & Refresh Content</button>
+                    <button class="btn-secondary" id="close-settings">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="breadcrumb">
+                    <span id="section-title">Section I: The Strategic Shift</span> /
+                    <span id="lecture-number">Lecture 1</span>
+                </div>
+                <h2 id="current-lecture-title">Introduction & Purpose</h2>
+            </header>
+
+            <div class="content-grid">
+                <!-- Left Column: Primary Content Tabs -->
+                <div class="primary-content">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="video">Video Script</button>
+                        <button class="tab-btn" data-tab="reading">Reading Material</button>
+                        <button class="tab-btn" data-tab="reflection">Reflection Exercise</button>
+                        <button class="tab-btn" data-tab="quiz">Module Quiz</button>
+                    </div>
+
+                    <div class="tab-panels">
+                        <!-- Video Tab -->
+                        <div class="tab-panel active" id="tab-video">
+                            <div class="video-container">
+                                <!-- Hardcoded Intro Video -->
+                                <video id="main-video-player" class="video-player" controls>
+                                    <source src="intro-video.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+
+                                <!-- Gemini Video Overlay (Default for other modules) -->
+                                <div id="video-script-overlay" class="video-placeholder">
+                                    <div class="video-overlay">
+                                        <span class="badge">Gemini-Generated Video Script</span>
+                                        <div class="script-hook" id="script-hook">"..."</div>
+                                        <button class="btn-play">▶ Read Script Intro</button>
+                                    </div>
+                                </div>
+                                <div class="script-content" id="script-body"></div>
+                            </div>
+                        </div>
+
+                        <!-- Reading Tab -->
+                        <div class="tab-panel" id="tab-reading">
+                            <div class="reading-area card" id="reading-content"></div>
+                        </div>
+
+                        <!-- Reflection Tab -->
+                        <div class="tab-panel" id="tab-reflection">
+                            <div class="reflection-area card">
+                                <h3>Reflection Exercise</h3>
+                                <p id="reflection-prompt"></p>
+                                <div id="reflection-fields" class="reflection-fields"></div>
+                                <button class="btn-primary" id="save-reflection">Save Reflection</button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Tab -->
+                        <div class="tab-panel" id="tab-quiz">
+                            <div class="quiz-area card" id="quiz-container">
+                                <h3>Module Quiz</h3>
+                                <div id="quiz-questions"></div>
+                                <button class="btn-primary" id="submit-quiz">Submit Assessment</button>
+                                <div id="quiz-result" class="feedback-box hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Elements -->
+                <div class="interaction-sidebar">
+                    <!-- Simulation Card -->
+                    <section class="card simulation-card" id="simulation-container">
+                        <h3>Interactive Learning Lab</h3>
+                        <div class="scenario-box">
+                            <p id="scenario-text">Loading...</p>
+                        </div>
+                        <div class="decision-points" id="decision-buttons"></div>
+                        <div id="simulation-feedback" class="feedback-box hidden"></div>
+                    </section>
+
+                    <!-- Regional Knowledge Card -->
+                    <section class="card knowledge-card" id="knowledge-container">
+                        <div class="card-header">
+                            <span class="icon">🌍</span>
+                            <h4>Regional Context</h4>
+                        </div>
+                        <p id="knowledge-text">Looking up local data...</p>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Footer Navigation -->
+            <footer class="content-footer">
+                <button id="prev-btn" class="btn-secondary" disabled>Previous</button>
+                <div class="lecture-status">
+                    <span id="status-text">Module 1 of 12</span>
+                </div>
+                <button id="next-btn" class="btn-primary">Next Lecture</button>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div id="certificate-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="certificate-canvas" id="certificate-print-area">
+                <div class="cert-border">
+                    <div class="cert-header">
+                        <img src="logo.jpg" alt="BIBF Logo" class="cert-logo">
+                        <h2>Botswana Institute of Banking and Finance</h2>
+                    </div>
+                    <div class="cert-body">
+                        <p class="cert-title">Certificate of Completion</p>
+                        <p class="cert-text">This is to certify that</p>
+                        <h3 class="participant-name">Professional Learner</h3>
+                        <p class="cert-text">has successfully completed the executive course</p>
+                        <h4 class="course-name">AI Governance & Compliance</h4>
+                        <div class="cert-meta">
+                            <div class="meta-item">
+                                <span class="label">Issued Date</span>
+                                <span class="value" id="cert-date">March 2026</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Certificate ID</span>
+                                <span class="value">BIBF-AI-2026-X892</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-footer">
+                        <div class="signature">
+                            <div class="sig-line"></div>
+                            <span>Head of Digital Skills, BIBF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="window.print()">Print Certificate</button>
+                <button class="btn-secondary" id="close-cert">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
